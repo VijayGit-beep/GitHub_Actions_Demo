@@ -23,7 +23,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        npm: npm ci
+        run: npm ci
 
       - name: Run tests
         run: run test -- --watchAll=false --passWithNoTests
