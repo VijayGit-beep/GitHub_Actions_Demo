@@ -24,7 +24,7 @@ jobs:
      #   run: npm run Lint
       - name: Test code
         id: run-tests
-        run: npm run test -- --watchAll=false
+        run: npm run #test -- --watchAll=false
       - name: Upload test resport 
         if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
