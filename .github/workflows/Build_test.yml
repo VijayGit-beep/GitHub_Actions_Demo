@@ -23,7 +23,14 @@ jobs:
      # - name: Lint code
      #   run: npm run Lint
       - name: Test code
+        id: run-tests
         run: npm run test -- --watchAll=false
+      - name: Upload test resport 
+        if: steps.run-tests.outcome == 'failure'
+        uses: actions/upload-artifacts@v4
+        with:
+          name: test-resport
+          path: test.json
   build:
     needs: test
     runs-on: ubuntu-latest
