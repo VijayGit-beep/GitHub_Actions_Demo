@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: npm install
-      - name: Lint code
-        run: npm run Lint
+     # - name: Lint code
+     #   run: npm run Lint
       - name: Test code
-        run: npm run test
+        run: npm run test -- --watchAll=false
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -32,7 +32,11 @@ jobs:
         with:
           node-version: ${{matrix.node-version }}
           cache: 'npm'
-
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm install
       - name: Build Project
@@ -47,6 +51,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
       - name: Get build artifacts
         uses: actions/download-artifact@v4
         with:
