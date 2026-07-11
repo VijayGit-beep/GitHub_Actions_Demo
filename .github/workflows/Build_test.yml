@@ -57,13 +57,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: deps-node-module-${{ hashFiles('**/package.json') }}
-      - name: Install dependencies
-        run: npm install
       - name: Get build artifacts
         uses: actions/download-artifact@v4
         with:
