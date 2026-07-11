@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-module-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
         run: npm install
      # - name: Lint code
@@ -20,6 +25,7 @@ jobs:
       - name: Test code
         run: npm run test -- --watchAll=false
   build:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,7 +42,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
+          key: deps-node-module-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
         run: npm install
       - name: Build Project
@@ -55,7 +61,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
+          key: deps-node-module-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
         run: npm install
       - name: Get build artifacts
